@@ -1,0 +1,19 @@
+<div data-role="page" data-add-back-btn="true">
+  <div data-role="header">
+    <h1><%=h @title %></h1> 
+  </div> 
+  <div data-role="content">
+    <ul data-role="listview">
+      <% @data.each do |route| %>
+        <li data-role="list-divider"><%=h route[:route] %></li>
+        <% if route[:times].empty? %>
+          <li>None found.</li>
+        <% else %>
+          <% route[:times].each do |time| %>
+            <li><%= time %> minutes</li>
+          <% end %>
+        <% end %>
+      <% end %>
+    </ul>
+  </div> 
+</div>
