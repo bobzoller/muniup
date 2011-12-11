@@ -17,10 +17,10 @@ get '/:direction' do
   url = case params['direction']
     when 'in'
       @title = 'Inbound to Downtown'
-      'http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9%7Cnull%7C5639&stops=9L%7Cnull%7C5639'
+      'http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9%7Cnull%7C6028&stops=9L%7Cnull%7C6026'
     when 'out'
       @title = 'Outbound to Visitation Valley'
-      'http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9%7Cnull%7C6028&stops=9L%7Cnull%7C6026'
+      'http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9%7Cnull%7C5639&stops=9L%7Cnull%7C5639'
     else
       raise 'unknown direction'
   end
