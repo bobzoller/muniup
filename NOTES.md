@@ -23,3 +23,12 @@ http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMulti
 
 http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9|null|5639&stops=9L|null|5639
 http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9|null|6028&stops=9L|null|6026
+
+
+## google_transit/trips.txt
+service_id,---,tripTag
+1900,2,4454067
+
+## google_transit/stop_times.txt
+tripTag,arrivalTime,departureTime,stopTag,sequence
+4454067,24:32:33,24:32:33,6028,43, , , ,

@@ -18,9 +18,11 @@ get '/:direction' do
     when 'in'
       @title = 'Inbound to Downtown'
       'http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9%7Cnull%7C6028&stops=9L%7Cnull%7C6026'
+      # destination 5685
     when 'out'
       @title = 'Outbound to Visitation Valley'
       'http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9%7Cnull%7C5639&stops=9L%7Cnull%7C5639'
+      # destination 6027
     else
       raise 'unknown direction'
   end
