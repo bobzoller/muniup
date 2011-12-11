@@ -1,6 +1,7 @@
 <div data-role="page" data-add-back-btn="true">
   <div data-role="header">
     <h1><%=h @title %></h1> 
+    <a href="#" onclick="$.mobile.changePage('/<%= params['direction'] %>', {reloadPage: true},{ allowSamePageTranstion: true},{ transition: 'none'}); return false;" data-icon="refresh" class="ui-btn-right">Refresh</a>
   </div> 
   <div data-role="content">
     <ul data-role="listview">
@@ -10,10 +11,13 @@
           <li>None found.</li>
         <% else %>
           <% route[:times].each do |time| %>
-            <li><%= time %> minutes</li>
+            <li><%= time == 0 ? 'arriving' : "#{time} minutes" %></li>
           <% end %>
         <% end %>
       <% end %>
     </ul>
   </div> 
+  <div data-role="footer" data-position="fixed" data-id="footer" class="ui-bar">
+    <h4><a href="mailto:bob@kludgebox.com?subject=muniup+feedback">Send Feedback</a></h4>
+  </div>
 </div>
