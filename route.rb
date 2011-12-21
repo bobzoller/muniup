@@ -8,6 +8,7 @@ module Muniup
       uri = URI.parse('http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni')
       stop_params = route[:options].map{|o| ["#{o[:tag]}|null|#{o[:start]}", "#{o[:tag]}|null|#{o[:stop]}"]}.flatten.uniq
       uri.query += '&' + stop_params.map{|stop_param| "stops=#{CGI.escape(stop_param)}"}.join('&')
+      puts uri.to_s
       uri.to_s
     end
 
@@ -27,7 +28,7 @@ module Muniup
           end
         end
       end
-      data.values.select{|d| d[:times][:start]}.sort_by{|d| d[:times][:final]}
+      data.values.select{|d| d[:times][:start] && d[:times][:stop]}.sort_by{|d| d[:times][:final]}
     end
 
   end
