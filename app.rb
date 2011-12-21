@@ -2,30 +2,40 @@ require 'rubygems'
 require 'bundler/setup'
 Bundler.require
 
-require './commute_point'
+require './route'
+
+TZ = TZInfo::Timezone.get('America/Los_Angeles')
 
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
+  def format_time(time)
+    TZ.utc_to_local(time).strftime('%-I:%-M %P')
+  end
 end
 
+config = {
+  name: 'Bob',
+  routes: [
+    {name: 'Work to Home', options: [
+      {tag: '9', start: '6028', stop: '5685', add: 2},
+      {tag: '9L', start: '6026', stop: '5685', add: 2}
+    ]},
+    {name: 'Home to Work', options: [
+      {tag: '9', start: '5639', stop: '6027', add: 5},
+      {tag: '9L', start: '5639', stop: '6027', add: 5}
+    ]},
+  ]
+}
+
 get '/' do
+  @config = config
   erb :index
 end
 
-get '/:direction' do
-  url = case params['direction']
-    when 'in'
-      @title = 'Inbound to Downtown'
-      'http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9%7Cnull%7C6028&stops=9L%7Cnull%7C6026'
-      # destination 5685
-    when 'out'
-      @title = 'Outbound to Visitation Valley'
-      'http://webservices.nextbus.com/service/publicXMLFeed?command=predictionsForMultiStops&a=sf-muni&stops=9%7Cnull%7C5639&stops=9L%7Cnull%7C5639'
-      # destination 6027
-    else
-      raise 'unknown direction'
-  end
-  @data = CommutePoint.fetch(url)
+get %r{/(\d+)} do |idx|
+  @route = config[:routes][idx.to_i]
+  @data = Muniup::Route.fetch(@route)
   erb :show
 end
+

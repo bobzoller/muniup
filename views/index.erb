@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+    <script type="text/javascript">
+       // force JQM to use the hash rather than paths
+       $.mobile.pushStateEnabled = false;
+    </script>
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -15,13 +19,15 @@
     <div data-role="page" id="home"> 
       <div data-role="header">
         <h1>MUNIup</h1> 
+        <a href="/new" data-icon="plus" data-iconpos="notext" class="ui-btn-right">Add</a>
       </div> 
       <div data-role="content">
-        <h2>Where are you headed?</h2>
+        <h2>Hey <%=h @config[:name] %>!</h2>
         <br>
         <ul data-role="listview">
-          <li><a href="<%= url('/out') %>">Work</a></li>
-          <li><a href="<%= url('/in') %>">Home</a></li>
+          <% @config[:routes].each_with_index do |route, i| %>
+            <li><a href="<%= url("/#{i}") %>"><%=h route[:name] %></a></li>
+          <% end %>
         </ul>
       </div> 
       <div data-role="footer" data-position="fixed" data-id="footer" class="ui-bar">

@@ -1,21 +1,23 @@
-<div data-role="page" data-add-back-btn="true">
+<div data-role="page" data-cache="false">
   <div data-role="header">
-    <h1><%=h @title %></h1> 
-    <a href="#" onclick="$.mobile.changePage('/<%= params['direction'] %>', {reloadPage: true, changeHash: false},{ allowSamePageTranstion: true},{ transition: 'none'}); return false;" data-icon="refresh" class="ui-btn-right">Refresh</a>
+    <a href="/" data-icon="arrow-l">Back</a>
+    <h1><%=h @route[:name] %></h1> 
+    <a href="javascript:void(0)" onclick="$.mobile.changePage('/<%= params['direction'] %>', {reloadPage: true, changeHash: false},{ allowSamePageTranstion: true},{ transition: 'none'}); return false;" data-icon="refresh" class="ui-btn-right">Refresh</a>
   </div> 
   <div data-role="content">
-    <ul data-role="listview">
-      <% @data.each do |route| %>
-        <li data-role="list-divider"><%=h route[:tag] %> @ <%=h route[:stop] %></li>
-        <% if route[:times].empty? %>
-          <li>None found</li>
-        <% else %>
-          <% route[:times][0, 3].each do |time| %>
-            <li><%= time == 0 ? 'Arriving' : "#{time} minutes" %></li>
-          <% end %>
+    <% if @data.empty? %>
+      <h2>No predictions... time to call a cab.</h2>
+    <% else %>
+      <ul data-role="listview">
+        <% @data.each do |route| %>
+          <li>
+            <h2><%=h route[:tag] %> @ <%=h route[:stop] %></h2>
+            <p>arrives in <%= route[:times][:start] %> minutes</p>
+            <p>should get you home by <%= format_time(route[:times][:final]) %></p>
+          </li>
         <% end %>
-      <% end %>
-    </ul>
+      </ul>
+    <% end %>
   </div> 
   <div data-role="footer" data-position="fixed" data-id="footer" class="ui-bar">
     <h4><a href="mailto:bob@kludgebox.com?subject=muniup+feedback">Send Feedback</a></h4>
