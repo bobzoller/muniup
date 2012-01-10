@@ -1,0 +1,33 @@
+<div data-role="page" data-cache="false">
+  <div data-role="header">
+    <a href="/<%= request.path.split('/')[1] %>" data-icon="arrow-l">Back</a>
+    <h1><%=h @route.name %></h1> 
+    <a href="javascript:void(0)" onclick="$.mobile.changePage('<%= request.path %>', {reloadPage: true, changeHash: false},{ allowSamePageTranstion: true},{ transition: 'none'}); return false;" data-icon="refresh" class="ui-btn-right">Refresh</a>
+  </div> 
+  <div data-role="content">
+    <% if @prediction.nil? %>
+      Already arrived.
+    <% else %>
+      <h2><%=h @prediction[:title] %></h2>
+      <p>
+        <% if @prediction[:departs] == 0 %>
+          departing now
+        <% else %>
+          departs in <%= @prediction[:departs] %> minutes
+        <% end %>
+      </p>
+      <p>should get you there around <%= format_time(@prediction[:finish]) %></p>
+    <% end %>
+
+    <% unless @coords.nil? %>
+      <div class="map" style="width: 320px; height: 200px"></div>
+      <div class="coords" style="display: none">
+        <span class="lat"><%= @coords[:lat] %></span>
+        <span class="lon"><%= @coords[:lon] %></span>
+      </div>
+    <% end %>
+  </div> 
+  <div data-role="footer" data-position="fixed" data-id="footer" class="ui-bar">
+    <h4><a href="mailto:bob@kludgebox.com?subject=muniup+feedback">Send Feedback</a></h4>
+  </div>
+</div>

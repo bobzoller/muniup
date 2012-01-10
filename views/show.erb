@@ -1,19 +1,27 @@
 <div data-role="page" data-cache="false">
   <div data-role="header">
     <a href="/" data-icon="arrow-l">Back</a>
-    <h1><%=h @route[:name] %></h1> 
-    <a href="javascript:void(0)" onclick="$.mobile.changePage('/<%= params['direction'] %>', {reloadPage: true, changeHash: false},{ allowSamePageTranstion: true},{ transition: 'none'}); return false;" data-icon="refresh" class="ui-btn-right">Refresh</a>
+    <h1><%=h @route.name %></h1> 
+    <a href="javascript:void(0)" onclick="$.mobile.changePage('<%= request.path %>', {reloadPage: true, changeHash: false},{ allowSamePageTranstion: true},{ transition: 'none'}); return false;" data-icon="refresh" class="ui-btn-right">Refresh</a>
   </div> 
   <div data-role="content">
-    <% if @data.empty? %>
+    <% if @route.upcoming_predictions.empty? %>
       <h2>No predictions... time to call a cab.</h2>
     <% else %>
       <ul data-role="listview">
-        <% @data.each do |route| %>
+        <% @route.upcoming_predictions.each_with_index do |prediction, idx| %>
           <li>
-            <h2><%=h route[:tag] %> @ <%=h route[:stop] %></h2>
-            <p>arrives in <%= route[:times][:start] %> minutes</p>
-            <p>should get you home by <%= format_time(route[:times][:final]) %></p>
+            <a href="<%= "#{request.path}/#{idx}/#{prediction[:vehicle]}" %>">
+              <h2><%=h prediction[:title] %></h2>
+              <p>
+                <% if prediction[:departs] == 0 %>
+                  departing now
+                <% else %>
+                  departs in <%= prediction[:departs] %> minutes
+                <% end %>
+              </p>
+              <p>should get you there around <%= format_time(prediction[:finish]) %></p>
+            </a>
           </li>
         <% end %>
       </ul>

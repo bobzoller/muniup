@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MUNIup</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+    <style type="text/css">
+      html { -webkit-text-size-adjust: none; }
+    </style>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  </head>
+  <body>
+    <%= yield %>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCWo3GL-0AVybUwfiAYdHw8riNgYEuzK8A&sensor=false"></script>
+    <script type="text/javascript">
+      $(function() {
+        var maybeLoadMap = function(el) {
+          if ($('.coords', el).length > 0) {
+            var lat = parseFloat($('.coords .lat', el).text())
+            var lon = parseFloat($('.coords .lon', el).text())
+            var pos = new google.maps.LatLng(lat, lon);
+            var opts = {
+              center: pos,
+              zoom: 16,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map($('.map', el).get(0), opts);
+            var marker = new google.maps.Marker({
+              map: map,
+              draggable: false,
+              animation: google.maps.Animation.DROP,
+              position: pos
+            });
+          }
+        };
+
+        $('div').live('pageshow', function(e) {
+          maybeLoadMap(e.target);
+        });
+
+        maybeLoadMap($("div:jqmData(role='page'):last").get(0));
+      });
+    </script>
+  </body>
+</html>
