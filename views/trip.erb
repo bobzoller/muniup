@@ -20,11 +20,7 @@
     <% end %>
 
     <% unless @coords.nil? %>
-      <div class="map" style="width: 320px; height: 200px"></div>
-      <div class="coords" style="display: none">
-        <span class="lat"><%= @coords[:lat] %></span>
-        <span class="lon"><%= @coords[:lon] %></span>
-      </div>
+      <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= @coords[:lat] %>,<%= @coords[:lon] %>&zoom=16&size=290x180&sensor=false&markers=<%= CGI.escape("color:red|#{@coords[:lat]},#{@coords[:lon]}") %>">
     <% end %>
   </div> 
   <div data-role="footer" data-position="fixed" data-id="footer" class="ui-bar">

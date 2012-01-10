@@ -91,7 +91,7 @@ module Muniup
         end
         group.xpath('.//prediction').each do |p|
           trips[p['tripTag']] ||= {
-            title: "#{group['routeTitle']} @ #{group['stopTitle']}",
+            title: "#{route_tag} @ #{group['stopTitle']}",
             vehicle: p['vehicle'],
             departs: p['minutes'].to_i,
             arrives: nil
