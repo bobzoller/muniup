@@ -9,9 +9,9 @@
       <h2>No predictions... time to call a cab.</h2>
     <% else %>
       <ul data-role="listview">
-        <% @route.upcoming_predictions.each_with_index do |prediction, idx| %>
+        <% @route.upcoming_predictions.each do |prediction| %>
           <li>
-            <a href="<%= "#{request.path}/#{idx}/#{prediction[:vehicle]}" %>">
+            <a href="<%= "/#{@route.id}/#{prediction[:option_id]}/#{prediction[:vehicle]}" %>">
               <h2><%=h prediction[:title] %></h2>
               <p>
                 <% if prediction[:departs] == 0 %>
