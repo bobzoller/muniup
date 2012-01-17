@@ -79,7 +79,7 @@ module Muniup
       puts url
       doc = Nokogiri::XML(open(url))
       vehicle = doc.at_xpath("//vehicle[@id='#{vehicle}']")
-      vehicle ? {lat: vehicle['lat'], lon: vehicle['lon'], ts: doc.} : nil
+      vehicle ? {lat: vehicle['lat'], lon: vehicle['lon']} : nil
     end
 
     # tuples is an array of tuples: [route_tag, start_stop_id, end_stop_id]
